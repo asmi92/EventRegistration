@@ -124,7 +124,7 @@ $(".input-number").keydown(function (e) {
 	 <form class="form-horizontal" method="POST">
     <div class="form-group">
     <label class="control-label" for="inputUIN">UIN</label>
-    <input type="text" class="form-control" name="uin"  id="uin" placeholder="Before swiping a card, have a cursor on this field" style="width: 29%;">
+    <input type="text" class="form-control" name="uin"  id="uin" placeholder="Before swiping a card, have a cursor in this field" style="width: 29%;">
       <script>
           document.getElementsByName("uin")[0].addEventListener('change', doThing);
           function doThing(){
