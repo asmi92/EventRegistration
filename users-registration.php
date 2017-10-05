@@ -1,6 +1,7 @@
 <?php 
 include('header.php');
 ?>
+<html>
 <body>
  <div class="navbar  navbar-fixed-top">
     <div class="navbar-inner1">
