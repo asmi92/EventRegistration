@@ -5,30 +5,30 @@ include('header.php');
 <body>
 <script>
     //plugin bootstrap minus and plus
-//http://jsfiddle.net/laelitenetwork/puJ6G/  
-$('.btn-number').click(function(e){
-    e.preventDefault();
-    console.log('Yaayy!!');
-    fieldName = $(this).attr('data-field');
-    type      = $(this).attr('data-type');
-    var input = $("input[name='"+fieldName+"']");
-    var currentVal = parseInt(input.val());
+//http://jsfiddle.net/laelitenetwork/puJ6G/ 
+    
+function guestsCount(type){
+//    fieldName = $(this).attr('data-field');
+//    //type      = $(this).attr('data-type');
+    var input = document.getElementById("guest");
+    var currentVal = parseInt(input.value);
+    console.log(currentVal);
     if (!isNaN(currentVal)) {
         if(type == 'minus') {
             
-            if(currentVal > input.attr('min')) {
-                input.val(currentVal - 1).change();
+            if(currentVal > input.getAttribute('min')) {
+                input.value = currentVal - 1;
             } 
-            if(parseInt(input.val()) == input.attr('min')) {
+            if(parseInt(input.value) == input.getAttribute('min')) {
                 $(this).attr('disabled', true);
             }
 
         } else if(type == 'plus') {
 
-            if(currentVal < input.attr('max')) {
-                input.val(currentVal + 1).change();
+            if(currentVal < input.getAttribute('max')) {
+                input.value =currentVal + 1;
             }
-            if(parseInt(input.val()) == input.attr('max')) {
+            if(parseInt(input.value) == input.getAttribute('max')) {
                 $(this).attr('disabled', true);
             }
 
@@ -36,7 +36,7 @@ $('.btn-number').click(function(e){
     } else {
         input.val(0);
     }
-});
+}
 $('.input-number').focusin(function(){
    $(this).data('oldValue', $(this).val());
 });
@@ -107,10 +107,8 @@ $(".input-number").keydown(function (e) {
     $edate=$row['end_date'];   
     $stime=$row['start_time']; 
     $etime=$row['end_time'];
-
 	}
     }
-    
 //	} else {
 //	echo "Invalid username or password!";
 //	}
@@ -124,7 +122,7 @@ $(".input-number").keydown(function (e) {
 	 <form class="form-horizontal" method="POST">
     <div class="form-group">
     <label class="control-label" for="inputUIN">UIN</label>
-    <input type="text" class="form-control" name="uin"  id="uin" placeholder="Before swiping a card, have a cursor on this field" style="width: 29%;">
+    <input type="text" class="form-control" name="uin"  id="uin" placeholder="Before swiping a card, have a cursor in this field" style="width: 29%;">
       <script>
           document.getElementsByName("uin")[0].addEventListener('change', doThing);
           function doThing(){
@@ -140,13 +138,13 @@ $(".input-number").keydown(function (e) {
   <div class="center">
 <div class="input-group" style="width: 29%;">
           <span class="input-group-btn">
-              <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="guest">
+              <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="guest" value="minus" onClick="guestsCount(value);">
                 <span class="glyphicon glyphicon-minus"></span>
               </button>
           </span>
-          <input type="text" name="guest" class="form-control input-number" value="0" min="0" max="100">
+          <input type="text" id="guest" name="guest" class="form-control input-number" value="0" min="0" max="<?php echo $guests ?>">
           <span class="input-group-btn">
-              <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="guest">
+              <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="guest" value="plus" onClick="guestsCount(value);">
                   <span class="glyphicon glyphicon-plus"></span>
               </button>
           </span>
@@ -157,7 +155,7 @@ $(".input-number").keydown(function (e) {
   <div class="control-group">
     <div class="controls">
 
-    <button type="submit" name="submit" class="btn btn-success">&nbsp;Get Started</button>
+    <button type="submit" name="submit" class="btn btn-success">&nbsp;Done</button>
     </div>
     </div>
     </form>
