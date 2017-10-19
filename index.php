@@ -80,6 +80,10 @@ include('dbcon.php');
     <div class="controls">
 	<input type="time" name="stime" class="form-control" > 
     </div>
+     <div class="alert alert-warning">
+  <strong>Warning!</strong> <?php if(isset($_POST['submit']) && isset($error))
+{echo $error;} ?>
+</div>    
     </div>
 	
 	
@@ -90,7 +94,7 @@ include('dbcon.php');
     </div>
     </div>
  
-   <button type="submit" name="submit" class="btn btn-primary"><i class="icon-save icon-large"></i>&nbsp;Submit</button>
+   <button type="submit" name="submit" class="btn btn-primary pull-right"><i class="icon-save icon-large"></i>&nbsp;Submit</button>
     </form>
 	</div>
 	<br><br>
@@ -98,6 +102,8 @@ include('dbcon.php');
         <strong>Success!</strong>
 	<?php
 	if (isset($_POST['submit'])){
+        $ThatTime ="14:08:10";
+        if (strtotime($_POST['etime']) >= strtotime($_POST['stime'])) {
         $event=$_POST['event'];
         $loc=$_POST['loc'];
         if(isset($_POST['is_reg_student']) && $_POST['is_reg_student'] == 'Yes')
@@ -130,6 +136,11 @@ include('dbcon.php');
             echo mysql_error();
         }
     }
+    else{
+        $error = "Start time should be lesser than end time";
+    }
+    }
+        
     mysql_close($db);
 	?>
     </div>
