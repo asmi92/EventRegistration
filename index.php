@@ -1,8 +1,14 @@
 <?php 
 include('header.php');
+include('dbcon.php');
 ?>
 <html>
 <body>
+<style>
+    .alert{
+        display: none;
+    }
+    </style>
 <div class="container">
     <div class="row">
          <div class="container">
@@ -19,7 +25,7 @@ include('header.php');
 
     </div>
     </div>
- <form class="form-horizontal" method="POST" action="../index.php">
+ <form class="form-horizontal" method="POST" action="">
     
     <div class="form-group">
     <label class="control-label" for="inputName">Event Name</label>
@@ -37,7 +43,7 @@ include('header.php');
     
 	 <div class="form-check">
     <label class="form-check-label" for="inputEmail">
-    <input type="checkbox" class="form-check-input" name="is_reg_student">
+    <input type="checkbox" class="form-check-input" name="is_reg_student" value="Yes">
     Registered Students Only</label>
     </div>
          
@@ -87,31 +93,47 @@ include('header.php');
    <button type="submit" name="submit" class="btn btn-primary"><i class="icon-save icon-large"></i>&nbsp;Submit</button>
     </form>
 	</div>
-	
+	<br><br>
+    <div class="alert alert-success" id="success">
+        <strong>Success!</strong>
 	<?php
 	if (isset($_POST['submit'])){
-	$event=$_POST['event'];
-    $loc=$_POST['loc'];
-	$is_reg_student=$_POST['is_reg_student'];
-	$guests=$_POST['guests'];
-	$org=$_POST['org'];
-	$sdate=$_POST['sdate'];
-	$edate=$_POST['edate'];
-    $stime=$_POST['stime'];
-    $etime=$_POST['etime'];
-	
-	mysql_query("insert into event (name,location,is_reg_student_only,no_of_guests,organization,start_date,end_date,start_time,end_time)
-	values('$event','$loc','$is_reg_student','$guests','$org','$sdate','$edate','$stime','$etime')
-	")or die(mysql_error());
-	?>
-	<script type="text/javascript">
-	alert('You are Successfully Register Thank You');
-	window.location="Start%20Bootstrap/index.php";
-	</script>
+        $event=$_POST['event'];
+        $loc=$_POST['loc'];
+        if(isset($_POST['is_reg_student']) && $_POST['is_reg_student'] == 'Yes')
+        {
+            $is_reg_stud=1;
+        }
+        else
+        {
+             $is_reg_stud=0;
+        }
+        $guests=$_POST['guests'];
+        $org=$_POST['org'];
+        $sdate=$_POST['sdate'];
+        $edate=$_POST['edate'];
+        $stime=$_POST['stime'];
+        $etime=$_POST['etime'];
 
-	<?php
-	}
+        $query=mysql_query("insert into event (name,location,is_reg_student_only,no_of_guests,organization,start_date,end_date,start_time,end_time)
+        values('$event','$loc','$is_reg_stud','$guests','$org','$sdate','$edate','$stime','$etime')");
+        if($query){
+        header('index.php');
+        ?>
+        <script type="text/javascript">
+           document.getElementById('success').style.display = "block";
+            </script>
+        <?php
+        echo 'You are Successfully Register Thank You';
+        }
+            else{
+            echo mysql_error();
+        }
+    }
+    mysql_close($db);
 	?>
-    </div>	
+    </div>
+    </div>
+    </div>
 </body>
 </html>

@@ -30,7 +30,7 @@ include('header.php');
   <select name="eventSelected" class="form-control">
  <option value="">Select Event</option>
     <?php 
-include('../dbcon.php');
+include('dbcon.php');
 ?>
 	<?php
 //	if (isset($_POST['submit'])){
@@ -97,6 +97,7 @@ endforeach;
      <?php
          header('event-registration.php');
     }
+    mysql_close($db);
 	?>    
          
 	

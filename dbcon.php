@@ -1,3 +1,4 @@
 <?php
-mysql_select_db('event_mgmt',mysql_connect('localhost','root',''))or die(mysql_error());
+$db=mysql_connect('localhost','root','');
+mysql_select_db('event_mgmt',$db)or die(mysql_error());
 ?>
