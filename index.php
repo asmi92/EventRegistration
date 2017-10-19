@@ -103,11 +103,8 @@ include('header.php');
 	mysql_query("insert into event (name,location,is_reg_student_only,no_of_guests,organization,start_date,end_date,start_time,end_time)
 	values('$event','$loc','$is_reg_student','$guests','$org','$sdate','$edate','$stime','$etime')
 	")or die(mysql_error());
+	echo 'You are Successfully Register Thank You';
 	?>
-	<script type="text/javascript">
-	alert('You are Successfully Register Thank You');
-	window.location="Start%20Bootstrap/index.php";
-	</script>
 
 	<?php
 	}
