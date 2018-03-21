@@ -1,10 +1,12 @@
 <center>
 <div class="container">
-
+    <h2 class="section-heading">To look for events for a particular date, pick the date from the Datepicker.</h2>
+    <br><br>
     <form method="POST" class="form-horizontal">
-        <label class="control-label">Event Date:</label>
         <div class="form-group">
-        <input type="date"  id="eventDate" name="eventDate">
+        <input type="date"  id="eventDate" name="eventDate" value="<?php echo isset($_POST['eventDate']) ? $_POST['eventDate'] : '' ?>" >
+        </div>
+        <div class="form-group">
         <button type="submit" name="submit" class="btn btn-success">&nbsp;List Events</button>
         </div>
     </form>
@@ -37,19 +39,22 @@ if(isset($_POST['eventDate'])){
         $e = oci_error($stid);
         throw new Exception($e['message']);
     }
-    
     // Fetch the results of the query
     oci_fetch_all($stid, $res);
-
-    foreach ($res['SEI_EVENT_NAME'] as $c ) {
+    if(count($res) > 5){
+        foreach ($res['SEI_EVENT_NAME'] as $c ) {
             echo "<option value='". $c."'>".$c."</option>";
          }
-    echo "</select>";
-    echo "</div>";
-    echo "<div class='control-group'><div class='controls'>
-    <button type='submit' name='event' class='btn btn-success'>Start Event Registration</button>
-    </div>
-</div>";
+        echo "</select>";
+        echo "</div>";
+        echo "<div class='control-group'><div class='controls'>
+        <button type='submit' name='event' class='btn btn-success'>Start Event Registration</button>
+        </div>
+    </div>";
+    }else{
+        echo 'It seems that this date doesn\'t have any events. Look for some other date';
+    }
+    
      // Close statement
     oci_free_statement($stid);
     }
