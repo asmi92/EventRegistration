@@ -1,6 +1,5 @@
 <?php 
 include('header.php');
-include('dbcon.php');
 ?>
 <html>
 <body>
