@@ -25,8 +25,7 @@ if(isset($_POST['eventDate'])){
 //    $eventDate = date('d/M/Y', strtotime($_POST['eventDate'])) .'%';
     $date=date_create($_POST['eventDate']);
     $eventDate=strtoupper(date_format($date,"d-M-y")).'%';
-    echo "<b>Events on Date:</b>" . date_format($date,"d-M-Y") . "<br>\n";
-    echo " <select name='eventSelected' class='form-control'><option value=''>Select Event</option>";
+    
     oci_bind_by_name($stid, ":bv", $eventDate);
     
     if (!$stid) {
@@ -40,8 +39,10 @@ if(isset($_POST['eventDate'])){
         throw new Exception($e['message']);
     }
     // Fetch the results of the query
-    oci_fetch_all($stid, $res);
-    if(count($res) > 5){
+    $nrows = oci_fetch_all($stid, $res);
+    if($nrows!=0){
+        echo "<b>Events on Date:</b>" . date_format($date,"d-M-Y") . "<br>\n";
+        echo " <select name='eventSelected' class='form-control'><option value=''>Select Event</option>";
         foreach ($res['SEI_EVENT_NAME'] as $c ) {
             echo "<option value='". $c."'>".$c."</option>";
          }
@@ -52,7 +53,7 @@ if(isset($_POST['eventDate'])){
         </div>
     </div>";
     }else{
-        echo 'It seems that this date doesn\'t have any events. Look for some other date';
+        echo '<center>It seems that this date doesn\'t have any events. Look for some other date</center>';
     }
     
      // Close statement
