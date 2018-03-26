@@ -151,7 +151,7 @@ $(".input-number").keydown(function (e) {
       <script>
           document.getElementsByName("uin")[0].addEventListener('change', doThing);
           function doThing(){
-          if(document.getElementById("uin").value){
+          if(document.getElementById("uin").value[0]==';'){
                 document.getElementById("uin").value=document.getElementById("uin").value.slice(2,10);
           }
           }
