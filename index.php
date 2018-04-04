@@ -1,13 +1,11 @@
 <?php 
 include('header.php');
 ?>
-<html>
-<body>
 <style>
     .alert{
         display: none;
     }
-    </style>
+</style>
 <div class="container">
     <div class="row">
          <div class="container">

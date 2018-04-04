@@ -1,8 +1,6 @@
 <?php 
 include('header.php');
 ?>
-<html>
-<body>
 <script>
 function guestsCount(type){
     var input = document.getElementById("guest");
@@ -71,12 +69,12 @@ $(".input-number").keydown(function (e) {
             e.preventDefault();
         }
     });
-    </script>
- <div class="navbar  navbar-fixed-top">
+</script>
+<div class="navbar  navbar-fixed-top">
     <div class="navbar-inner1">
 
     </div>
-    </div>
+</div>
 <div class="container">
 <?php
      session_start();
@@ -133,7 +131,7 @@ $(".input-number").keydown(function (e) {
     oci_free_statement($stid);  
     oci_close($conn);
     }
-	?>
+?>
 <center>
 <div class="container">
     <h2 class="section-heading">You can  start checkin for event <?php echo $_SESSION['eventSelected'] ?></h2>
@@ -149,13 +147,13 @@ $(".input-number").keydown(function (e) {
                 document.getElementById("uin").value=document.getElementById("uin").value.slice(2,10);
           }
           }
-        </script>
-    </div>
+    </script>
+</div>
     
-	  <div class="form-group">
+<div class="form-group">
     <label class="control-label">Guests</label>
-  <div class="center">
-<div class="input-group" style="width: 29%;">
+    <div class="center">
+    <div class="input-group" style="width: 29%;">
           <span class="input-group-btn">
               <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="guest" value="minus" onClick="guestsCount(value);">
                 <span class="glyphicon glyphicon-minus"></span>
@@ -171,11 +169,10 @@ $(".input-number").keydown(function (e) {
 	<p></p>
 </div>
     </div>
-  <div class="control-group">
-    <div class="controls">
-
-    <button type="submit" name="submit" class="btn btn-success">&nbsp;Done</button>
-    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" name="submit" class="btn btn-success">&nbsp;Done</button>
+        </div>
     </div>
     </form>
     </div> </center>
