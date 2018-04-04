@@ -4,15 +4,9 @@ include('header.php');
 <html>
 <body>
 <script>
-    //plugin bootstrap minus and plus
-//http://jsfiddle.net/laelitenetwork/puJ6G/ 
-    
 function guestsCount(type){
-//    fieldName = $(this).attr('data-field');
-//    //type      = $(this).attr('data-type');
     var input = document.getElementById("guest");
     var currentVal = parseInt(input.value);
-    console.log(currentVal);
     if (!isNaN(currentVal)) {
         if(type == 'minus') {
             
