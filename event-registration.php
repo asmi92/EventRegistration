@@ -1,8 +1,6 @@
 <?php 
 include('header.php');
 ?>
-<html>
-<body>
 <script>
 function guestsCount(type){
     var input = document.getElementById("guest");
@@ -71,44 +69,69 @@ $(".input-number").keydown(function (e) {
             e.preventDefault();
         }
     });
-    </script>
- <div class="navbar  navbar-fixed-top">
+</script>
+<div class="navbar  navbar-fixed-top">
     <div class="navbar-inner1">
 
     </div>
-    </div>
+</div>
 <div class="container">
 <?php
      session_start();
-//	if (isset($_POST['submit'])){
+	if (isset($_POST['submit'])){
 //	$sdate=$_POST['sdate'];
-    $event = array();
+//    $event = array();
     $eventSelect=$_SESSION['eventSelected'];
-    //$eventSelect=str_replace(" ","_","$eventSelect");
-	$query=mysql_query("select * from event where name='$eventSelect'")or die(mysql_error());
-    $numrows=mysql_num_rows($query);
-	if($numrows!=0)
-	{
-	while($row=mysql_fetch_assoc($query))
-	{
-    $eventid=$row['id'];
-	$ename=$row['name'];
-	$location=$row['location'];
-    $is_reg_stud=$row['is_reg_student_only'];
-    $guests=$row['no_of_guests'];
-    $org=$row['organization'];
-    $sdate=$row['start_date'];  
-    $edate=$row['end_date'];   
-    $stime=$row['start_time']; 
-    $etime=$row['end_time'];
-	}
+    $eventSelect=str_replace(" ","_","$eventSelect");
+//	$query=mysql_query("select * from event where name='$eventSelect'")or die(mysql_error());
+    $stid = oci_parse($conn, 'SELECT SWIPEMGR.F_REGISTERED_THIS_TERM(:bv, :ty) from dual');
+    oci_bind_by_name($stid, ":bv", $_POST['uin']);
+    $termYr = '201710';
+    oci_bind_by_name($stid, ":ty", $termYr);
+    if (!$stid) {
+        $e = oci_error($conn);
+        throw new Exception($e['message']);
     }
-//	} else {
-//	echo "Invalid username or password!";
-//	}
+    // Perform the logic of the query
+    $r = oci_execute($stid);
+    if (!$r) {
+        $e = oci_error($stid);
+        throw new Exception($e['message']);
+    }
+    
+    // Fetch the results of the query
+    while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+        foreach ($row as $item) {
+        if($item=='Y'){
+            $stid1 = oci_parse($conn, 'declare uploadCount number; begin SCARDSWPE.P_LOAD_SWIPE (:bv,:ty,uploadCount); dbms_output.put_line(\'upload count: \' || uploadCount); end;');
+            oci_bind_by_name($stid1, ":bv", $_POST['uin']);
+            oci_bind_by_name($stid1, ":ty", $_SESSION['eventCodeSelected']);
+            //But BEFORE statement, Create your cursor
+//            $cursor = oci_new_cursor($conn);
+            
+            // On your code add the latest parameter to bind the cursor resource to the Oracle argument
+//            oci_bind_by_name($stid1,":OUTPUT_CUR", $cursor,-1,OCI_B_CURSOR);
+         // Execute the statement as in your first try
+            $r=oci_execute($stid1);
+            if($r==1){
+                echo 'UIN:'.$_POST['uin'].' is registered for '. $_SESSION['eventSelected']. ' event';
+            }
+            // and now, execute the cursor
+//            oci_execute($cursor);
 
-        
-	?>
+//            // Use OCIFetchinto in the same way as you would with SELECT
+//            while ($data = oci_fetch_assoc($cursor, OCI_RETURN_LOBS )) {
+//                print_r($data);
+//            }
+        }else{
+             echo 'UIN is not registered!';  
+        }
+        }
+    }
+    oci_free_statement($stid);  
+    oci_close($conn);
+    }
+?>
 <center>
 <div class="container">
     <h2 class="section-heading">You can  start checkin for event <?php echo $_SESSION['eventSelected'] ?></h2>
@@ -120,17 +143,17 @@ $(".input-number").keydown(function (e) {
       <script>
           document.getElementsByName("uin")[0].addEventListener('change', doThing);
           function doThing(){
-          if(document.getElementById("uin").value){
+          if(document.getElementById("uin").value[0]==';'){
                 document.getElementById("uin").value=document.getElementById("uin").value.slice(2,10);
           }
           }
-        </script>
-    </div>
+    </script>
+</div>
     
-	  <div class="form-group">
+<div class="form-group">
     <label class="control-label">Guests</label>
-  <div class="center">
-<div class="input-group" style="width: 29%;">
+    <div class="center">
+    <div class="input-group" style="width: 29%;">
           <span class="input-group-btn">
               <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="guest" value="minus" onClick="guestsCount(value);">
                 <span class="glyphicon glyphicon-minus"></span>
@@ -146,15 +169,14 @@ $(".input-number").keydown(function (e) {
 	<p></p>
 </div>
     </div>
-  <div class="control-group">
-    <div class="controls">
-
-    <button type="submit" name="submit" class="btn btn-success">&nbsp;Done</button>
-    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" name="submit" class="btn btn-success">&nbsp;Done</button>
+        </div>
     </div>
     </form>
     </div> </center>
- <?php
+ <!--?php
 	if (isset($_POST['uin'])){
 	$uin1=$_POST['uin'];
     $guest1=$_POST['guest'];
@@ -169,7 +191,7 @@ $(".input-number").keydown(function (e) {
         }
            
     }
-	?>       
+	?-->       
 	
 </div>
 </body>
