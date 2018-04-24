@@ -172,7 +172,7 @@ $(".input-number").keydown(function (e) {
 //                print_r($data);
 //            }
         }else{
-             echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;UIN is not registered!</span>';  
+             echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;'.$_POST['uin'].'&nbsp;UIN is not registered!</span>';  
         }
         }
     }
