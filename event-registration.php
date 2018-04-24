@@ -162,7 +162,7 @@ $(".input-number").keydown(function (e) {
          // Execute the statement as in your first try
             $r=oci_execute($stid1);
             if($r==1){
-                echo '<span style="border: 1px solid green;padding:10px;"><span class="glyphicon glyphicon-ok" style="color:green;"></span>&nbsp;&nbsp;UIN:'.$_POST['uin'].' is checked in for '. $_SESSION['eventSelected']. ' event</span>';
+                echo '<span style="border: 1px solid green;padding:10px;"><span class="glyphicon glyphicon-ok" style="color:green;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;UIN:'.$_POST['uin'].' is checked in for '. $_SESSION['eventSelected']. ' event</span>';
             }
             // and now, execute the cursor
 //            oci_execute($cursor);
@@ -172,7 +172,7 @@ $(".input-number").keydown(function (e) {
 //                print_r($data);
 //            }
         }else{
-             echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-remove" style="color:red;"></span>&nbsp;&nbsp;UIN is not registered!</span>';  
+             echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;UIN is not registered!</span>';  
         }
         }
     }
