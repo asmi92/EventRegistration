@@ -161,8 +161,12 @@ $(".input-number").keydown(function (e) {
 //            oci_bind_by_name($stid1,":OUTPUT_CUR", $cursor,-1,OCI_B_CURSOR);
          // Execute the statement as in your first try
             $r=oci_execute($stid1);
+//            echo $r;
             if($r==1){
                 echo '<span style="border: 1px solid green;padding:10px;"><span class="glyphicon glyphicon-ok" style="color:green;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;UIN:'.$_POST['uin'].' is checked in for '. $_SESSION['eventSelected']. ' event</span>';
+            }
+            else{
+                 echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;'.$_POST['uin'].'&nbsp;UIN is already checked-in!</span>';  
             }
             // and now, execute the cursor
 //            oci_execute($cursor);

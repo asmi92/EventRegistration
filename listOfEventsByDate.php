@@ -53,7 +53,7 @@ if(isset($_POST['eventDate'])){
         </div>
     </div>";
     }else{
-        echo '<center>It seems that this date doesn\'t have any events. Look for some other date</center>';
+        echo '<center><span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;It seems that this date doesn\'t have any events. Look for some other date</center></span>';
     }
     
      // Close statement
