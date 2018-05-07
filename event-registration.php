@@ -126,9 +126,11 @@ $(".input-number").keydown(function (e) {
     </div>
     <br><br>
      <?php
+//    echo $_SESSION['eventCodeSelected'];
 	if (isset($_POST['submit'])){
 //	$sdate=$_POST['sdate'];
 //    $event = array();
+        
     $eventSelect=$_SESSION['eventSelected'];
     $eventSelect=str_replace(" ","_","$eventSelect");
 //	$query=mysql_query("select * from event where name='$eventSelect'")or die(mysql_error());
@@ -151,18 +153,18 @@ $(".input-number").keydown(function (e) {
     while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
         foreach ($row as $item) {
         if($item=='Y'){
-            $stid1 = oci_parse($conn, 'declare uploadCount number; begin SCARDSWPE.P_LOAD_SWIPE (:bv,:ty,uploadCount); dbms_output.put_line(\'upload count: \' || uploadCount); end;');
+            $stid1 = oci_parse($conn, 'declare uploadCount number; begin SCARDSWPE.P_LOAD_SWIPE (:bv,:ty,:r); dbms_output.put_line(uploadCount); end;');
             oci_bind_by_name($stid1, ":bv", $_POST['uin']);
             oci_bind_by_name($stid1, ":ty", $_SESSION['eventCodeSelected']);
+            oci_bind_by_name($stid1, ':r', $uploadCount, 40);
             //But BEFORE statement, Create your cursor
 //            $cursor = oci_new_cursor($conn);
             
             // On your code add the latest parameter to bind the cursor resource to the Oracle argument
 //            oci_bind_by_name($stid1,":OUTPUT_CUR", $cursor,-1,OCI_B_CURSOR);
          // Execute the statement as in your first try
-            $r=oci_execute($stid1);
-//            echo $r;
-            if($r==1){
+            oci_execute($stid1);
+            if($uploadCount==1){
                 echo '<span style="border: 1px solid green;padding:10px;"><span class="glyphicon glyphicon-ok" style="color:green;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;UIN:'.$_POST['uin'].' is checked in for '. $_SESSION['eventSelected']. ' event</span>';
             }
             else{
@@ -170,17 +172,17 @@ $(".input-number").keydown(function (e) {
             }
             // and now, execute the cursor
 //            oci_execute($cursor);
-
+            oci_free_statement($stid1);
 //            // Use OCIFetchinto in the same way as you would with SELECT
 //            while ($data = oci_fetch_assoc($cursor, OCI_RETURN_LOBS )) {
 //                print_r($data);
 //            }
         }else{
-             echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;&nbsp;'.$_POST['uin'].'&nbsp;UIN is not registered!</span>';  
+             echo '<span style="border: 1px solid red;padding:10px;"><span class="glyphicon glyphicon-exclamation-sign" style="color:red;"></span><span class="sr-only">Error:</span>&nbsp;UIN :&nbsp;'.$_POST['uin'].'&nbsp; is not registered!</span>';  
         }
         }
     }
-    oci_free_statement($stid);  
+    oci_free_statement($stid);    
     oci_close($conn);
     }
 ?>
